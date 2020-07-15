@@ -2,6 +2,7 @@ import React, { useState, useGlobal } from "reactn";
 import { object, string } from "yup";
 import { Formik } from "formik";
 import { mutate } from "swr";
+import { toast } from "react-toastify";
 
 import { updateProfileService } from "services/profileService";
 import { CloseIcon } from "components/Icons";
@@ -10,15 +11,14 @@ import Textarea from "components/Textarea";
 import Wrapper from "../Styles/EditProfileModal";
 import Button from "components/Button";
 import Field from "components/Field";
-import { toast } from "react-toastify";
 
 export default ({ closeModal }) => {
   /**
    * states
    */
   const [profile, setProfile] = useGlobal("user");
-  const [cover, setCover] = useState("");
-  const [avatar, setAvatar] = useState("");
+  const [cover, setCover] = useState(profile?.cover || "");
+  const [avatar, setAvatar] = useState(profile?.avatar || "");
 
   /**
    * image uploader
@@ -90,13 +90,22 @@ export default ({ closeModal }) => {
             channelDescription: profile?.channelDescription || "",
           }}
           children={(props) => <FormFields {...props} />}
-          onSubmit={(params, { setSubmitting }) =>
-            updateProfileService(params).then(
+          onSubmit={(params) =>
+            updateProfileService({
+              ...params,
+              cover: cover,
+              avatar: avatar,
+            }).then(
               () =>
                 mutate(`/users/${profile.id}`, true) |
                 toast.dark("Profile updated")
             ) |
-            setProfile({ ...profile, ...params }) |
+            setProfile({
+              ...profile,
+              ...params,
+              cover: cover,
+              avatar: avatar,
+            }) |
             closeModal()
           }
         />
