@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { StyledTrending } from "../pages/Trending";
-import { SkeletonLine, TrendingCardSkeleton } from "../styles/Skeleton";
+
+import { SkeletonLine, TrendingCardSkeleton } from "styles/Skeleton";
+import StyledTrending from "styles/Trending";
 
 const SkeletonWrapper = styled.div`
   display: flex;

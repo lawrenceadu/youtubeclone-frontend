@@ -1,16 +1,14 @@
-import React, { useEffect } from "react";
-import { connect } from "react-redux";
-import { getChannelRecommendations } from "../actions";
-import ChannelInfo from "./ChannelInfo";
-import { StyledTrending } from "../pages/Trending";
-import Skeleton from "../skeletons/SuggestionSkeleton";
+import React from "react";
+import useSWR from "swr";
 
-const Suggestions = ({ isFetching, channels, getChannelRecommendations }) => {
-  useEffect(() => {
-    getChannelRecommendations();
-  }, [getChannelRecommendations]);
+import StyledTrending from "styles/Trending";
+import ChannelInfo from "views/Channel/Components/ChannelInfo";
+import Skeleton from "skeletons/SuggestionSkeleton";
 
-  if (isFetching) {
+export default () => {
+  const { data: channels, error } = useSWR("users");
+
+  if (!channels && !error) {
     return <Skeleton />;
   }
 
@@ -23,12 +21,3 @@ const Suggestions = ({ isFetching, channels, getChannelRecommendations }) => {
     </StyledTrending>
   );
 };
-
-const mapStateToProps = ({ channelRecommendation }) => ({
-  isFetching: channelRecommendation.isFetching,
-  channels: channelRecommendation.channels,
-});
-
-export default connect(mapStateToProps, { getChannelRecommendations })(
-  Suggestions
-);

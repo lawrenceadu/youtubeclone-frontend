@@ -1,21 +1,23 @@
 # Youtube Clone Frontend
 
-Youtube clone using PERN stack (Postgres, Express, React, Node). 
+Youtube clone using PERN stack (Postgres, Express, React, Node).
 
-This is the frontend repository, built with React + Redux. If you are looking for the backend repository, [click here](https://github.com/manikandanraji/youtubeclone-backend)
+This is the frontend repository, built with React + Reactn. If you are looking for the backend repository, [click here](https://github.com/lawrenceadu/youtubeclone-backend)
 
-Check out the [deployed site](https://utubeclone.netlify.app/)
+Check out the [deployed site](https://cloned-youtube.netlify.app/)
 
 ## Core packages
 
-1. Redux - State Management
-2. React Router - Routing
+1. State Management - Reactn
+2. Routing - React Router
 3. Styling - Styled Components
 4. Toast Notifications - React Toastify
-5. Network calls - Axios
+5. Network calls - Axios with SWR
 6. Video player - Videojs
+7. Form - Formik and Yup
 
 ## Video uploads
+
 I am using cloudinary for hosting videos and the thumbnails are generated automatically once we upload the video to cloudinary
 
 ## Features
@@ -38,6 +40,7 @@ At the root of your project create an .env file with the following contents:
 ```javascript
 REACT_APP_BACKEND_URL=<YOUR_BACKEND_URL>
 REACT_APP_CLOUDINARY_ENDPOINT=https://api.cloudinary.com/v1_1/<YOUR_CLOUD_NAME>
+REACT_APP_ROOT_KEY=youtube-rootkey
 ```
 
 Then run <code>npm i</code> and <code>npm start</code> to see the youtube clone in action
@@ -77,16 +80,3 @@ Then run <code>npm i</code> and <code>npm start</code> to see the youtube clone 
 ### Search
 
 ![Search](screenshots/search_results.png)
-
-## My Clone Trilogy
-
-With this clone, I am finishing what I call 'my clone trilogy'. If you are interested, you can visit my other clones that are part of this trilogy
-
-1. Twitter
-
-   - [Frontend](https://github.com/manikandanraji/twitter-clone-frontend)
-   - [Backend](https://github.com/manikandanraji/twitter-clone-frontend)
-
-2. Instagram
-   - [Frontend](https://github.com/manikandanraji/instaclone-frontend)
-   - [Backend](https://github.com/manikandanraji/instaclone-backend)

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Avatar from "../styles/Avatar";
-import { timeSince } from "../utils";
+import { timesince } from "../utils";
 
 const Wrapper = styled.div`
   .thumb {
@@ -65,7 +65,7 @@ const VideoCard = ({ nousername, hideavatar, video }) => {
           )}
           <p className="secondary">
             <span>{video.views || 0} views</span> <span>•</span>{" "}
-            <span>{timeSince(video.createdAt)} ago</span>
+            <span>{timesince(video.createdAt)} ago</span>
           </p>
         </div>
       </div>

@@ -1,28 +1,57 @@
-import { combineReducers } from "redux";
-import user from "./user";
-import feed from "./feed";
-import video from "./video";
-import profile from "./profile";
-import sidebar from "./sidebar";
-import recommendation from "./recommendation";
-import channelRecommendation from "./channelRecommendation";
-import searchResult from "./searchResult";
-import trending from "./trending";
-import likedVideo from "./likedVideo";
-import history from "./history";
-import notfound from "./notfound";
+import { addCallback, setGlobal, addReducer } from "reactn";
+import * as auth from "./auth";
 
-export default combineReducers({
-  user,
-  feed,
-  video,
-  profile,
-  sidebar,
-  recommendation,
-  channelRecommendation,
-  searchResult,
-  trending,
-  likedVideo,
-  history,
-  notfound,
-});
+/**
+ * variables
+ */
+const rootKey = process.env.REACT_APP_ROOT_KEY;
+
+/**
+ * states
+ */
+export const rootState = {
+  isAuthenticated: false,
+  user: null,
+};
+
+/**
+ * reducers
+ */
+const reducers = {
+  "auth.login": auth.login,
+  "auth.logout": auth.logout,
+};
+
+/**
+ * store all global states in localStorage for persistence
+ * @param {*} global
+ */
+export function handleChange(global) {
+  /**
+   * push global states to localStorage
+   */
+  const newState = JSON.stringify(global);
+  localStorage[rootKey] = newState;
+}
+
+export default function handle() {
+  const states = localStorage[rootKey]
+    ? JSON.parse(localStorage[rootKey])
+    : rootState;
+  /**
+   * set global variables
+   */
+  setGlobal(states);
+
+  /**
+   * set reducers
+   */
+  Object.entries(reducers).map(([key, val]) => addReducer(key, val));
+
+  /**
+   * when updates are done to global store, callback function is fired
+   */
+  addCallback(handleChange);
+
+  return true;
+}

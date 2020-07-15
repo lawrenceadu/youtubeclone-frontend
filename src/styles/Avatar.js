@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import { Img } from "react-image";
 
-const Avatar = styled.img`
+const Avatar = styled(Img)`
   width: 28px;
   height: 28px;
   border-radius: 14px;

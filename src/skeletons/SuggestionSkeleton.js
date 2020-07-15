@@ -1,12 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { StyledTrending } from "../pages/Trending";
-import { SkeletonLine, ChannelInfoSkeleton } from "../styles/Skeleton";
+
+import { SkeletonLine, ChannelInfoSkeleton } from "styles/Skeleton";
+import StyledTrending from "styles/Trending";
 
 const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
   margin-bottom: 1.5rem;
+  align-items: center;
+  display: flex;
 `;
 
 const SuggestionSkeleton = () => {

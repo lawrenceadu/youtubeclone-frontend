@@ -1,12 +1,29 @@
 import React from "react";
 import { render } from "react-dom";
-import { Provider } from "react-redux";
+import { SWRConfig } from "swr";
+
+import { ErrorBoundary, http } from "utils";
 import App from "./App";
-import store from "./store";
+
+import reducer from "./reducers";
+
+/**
+ * initialize reducer
+ */
+reducer();
 
 render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <ErrorBoundary>
+    <SWRConfig
+      value={{
+        fetcher: (url) => http.get(url).then(({ data }) => data),
+        shouldRetryOnError: false,
+        errorRetryInterval: 0,
+        errorRetryCount: 2,
+      }}
+    >
+      <App />
+    </SWRConfig>
+  </ErrorBoundary>,
   document.getElementById("root")
 );

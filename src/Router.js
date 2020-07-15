@@ -1,52 +1,74 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-  Switch,
-} from "react-router-dom";
+import React, { useGlobal } from "reactn";
+import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 
 // components
-import Navbar from "./components/Navbar";
-import BottomBar from "./components/BottomBar";
-import Sidebar from "./components/Sidebar";
+import BottomBar from "views/Layouts/BottomBar";
+import Sidebar from "views/Layouts/Sidebar";
+import Navbar from "views/Layouts/Navbar";
 
 // styles
-import Container from "./styles/Container";
+import Container from "styles/Container";
 
 // pages
-import Home from "./pages/Home";
-import Trending from "./pages/Trending";
-import Subscriptions from "./pages/Subscriptions";
-import Channel from "./pages/Channel";
-import WatchVideo from "./pages/WatchVideo";
-import SearchResults from "./pages/SearchResults";
-import Library from "./pages/Library";
-import History from "./pages/History";
-import YourVideos from "./pages/YourVideos";
-import LikedVideos from "./pages/LikedVideos";
+import Auth from "views/Auth";
+import Home from "views/Home";
+import Feed from "views/Feed";
+import Channel from "views/Channel";
+import WatchVideo from "views/WatchVideo";
+import SearchResults from "views/SearchResults";
 
-const AppRouter = () => (
-  <Router>
-    <Navbar />
-    <Sidebar />
-    <BottomBar />
-    <Container>
-      <Switch>
-        <Route path="/watch/:videoId" component={WatchVideo} />
-        <Route path="/channel/:userId" component={Channel} />
-        <Route path="/results/:searchterm" component={SearchResults} />
-        <Route path="/feed/trending" component={Trending} />
-        <Route path="/feed/subscriptions" component={Subscriptions} />
-        <Route path="/feed/library" component={Library} />
-        <Route path="/feed/history" component={History} />
-        <Route path="/feed/my_videos" component={YourVideos} />
-        <Route path="/feed/liked_videos" component={LikedVideos} />
-        <Route path="/" component={Home} />
-        <Redirect to="/" />
-      </Switch>
-    </Container>
-  </Router>
-);
+export default () => {
+  const [isAuthenticated] = useGlobal("isAuthenticated");
+  const [hideNavbar] = useGlobal("navbar");
 
-export default AppRouter;
+  return (
+    <BrowserRouter>
+      {isAuthenticated ? (
+        <React.Fragment>
+          <Navbar />
+          <Sidebar />
+          <BottomBar />
+          <Container {...(hideNavbar && { hide: true })}>
+            <Switch>
+              {}
+              <Route
+                exact
+                path="/results/:searchterm"
+                component={SearchResults}
+              />
+              <Route exact path="/watch/:videoId" component={WatchVideo} />
+              <Route exact path="/channel/:userId" component={Channel} />
+              <Route path="/feed" component={Feed} />
+              <Route path="/" component={Home} />
+              <Redirect to="/" />
+            </Switch>
+          </Container>
+        </React.Fragment>
+      ) : (
+        <Switch>
+          <Route path="/auth" component={Auth} />
+          <Redirect to="/auth" />
+        </Switch>
+      )}
+    </BrowserRouter>
+  );
+};
+
+export const namedRoutes = {
+  channel: "/channel/:userId",
+  results: "/results/:searchterm",
+  watch: "/watch/:videoId",
+  home: "/",
+  feed: {
+    trending: "/feed/trending",
+    history: "/feed/history",
+    library: "/feed/library",
+    videos: "/feed/my-videos",
+    liked: "/feed/liked-videos",
+    subs: "/feed/subscriptions",
+  },
+  auth: {
+    login: "/auth/login",
+    signup: "/auth/signup",
+  },
+};

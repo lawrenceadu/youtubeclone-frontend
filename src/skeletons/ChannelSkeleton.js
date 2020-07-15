@@ -1,15 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-import { SkeletonLine, VideoCardSkeleton } from "../styles/Skeleton";
+
+import { SkeletonLine, VideoCardSkeleton } from "styles/Skeleton";
 
 const Wrapper = styled.div`
   min-height: 100vh;
 
   .channel-avatar-info {
-    display: flex;
     align-items: center;
-    width: 80%;
     margin: 1rem auto;
+    display: flex;
+    width: 80%;
   }
 
   .avatar {
