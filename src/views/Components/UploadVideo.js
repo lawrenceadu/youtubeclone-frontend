@@ -10,6 +10,9 @@ const UploadVideo = () => {
   const [showModal, setShowModal] = useState(false);
   const [previewVideo, setPreviewVideo] = useState("");
 
+  // to prevent blowing up cloudinary storage
+  const downtime = !process.env.REACT_APP_ALLOW_UPLOAD;
+
   // uploaded data
   const [url, setUrl] = useState("");
   const [thumbnail, setThumbnail] = useState("");
@@ -27,11 +30,18 @@ const UploadVideo = () => {
       setPreviewVideo(url);
       setShowModal(true);
 
-      const data = await upload("video", file);
-      setUrl(data);
+      if (downtime) {
+        setTimeout(() => {
+          setShowModal(false);
+          toast.dark("Video uploads paused for now, try later");
+        }, 5000);
+      } else {
+        const data = await upload("video", file);
+        setUrl(data);
 
-      const ext = path.extname(data);
-      setThumbnail(data.replace(ext, ".jpg"));
+        const ext = path.extname(data);
+        setThumbnail(data.replace(ext, ".jpg"));
+      }
     }
   };
 
